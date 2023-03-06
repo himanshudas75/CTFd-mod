@@ -11,6 +11,7 @@ from CTFd.utils.email import check_email_is_whitelisted
 from CTFd.utils.user import get_current_user, is_admin
 from CTFd.utils.validators import validate_country_code
 
+from CTFd.hashing import hash
 
 class UserSchema(ma.ModelSchema):
     class Meta:
@@ -56,6 +57,11 @@ class UserSchema(ma.ModelSchema):
         UserFieldEntriesSchema, partial=True, many=True, attribute="field_entries"
     )
 
+    @pre_load
+    def hash_name(self, data):
+        data["name_hash"] = hash(data.get("name"))
+        return data
+    
     @pre_load
     def validate_name(self, data):
         name = data.get("name")
@@ -313,6 +319,7 @@ class UserSchema(ma.ModelSchema):
         "user": [
             "website",
             "name",
+            "name_hash",
             "country",
             "affiliation",
             "bracket",
@@ -324,6 +331,7 @@ class UserSchema(ma.ModelSchema):
         "self": [
             "website",
             "name",
+            "name_hash",
             "email",
             "country",
             "affiliation",
@@ -337,6 +345,7 @@ class UserSchema(ma.ModelSchema):
         "admin": [
             "website",
             "name",
+            "name_hash",
             "created",
             "country",
             "banned",
