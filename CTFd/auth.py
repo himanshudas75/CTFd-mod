@@ -24,6 +24,8 @@ from CTFd.utils.security.auth import login_user, logout_user
 from CTFd.utils.security.signing import unserialize
 from CTFd.utils.validators import ValidationError
 
+from CTFd.hashing import hash
+
 auth = Blueprint("auth", __name__)
 
 
@@ -191,6 +193,7 @@ def register():
 
     if request.method == "POST":
         name = request.form.get("name", "").strip()
+        name_hash = hash(name)
         email_address = request.form.get("email", "").strip().lower()
         password = request.form.get("password", "").strip()
 
@@ -299,7 +302,7 @@ def register():
             )
         else:
             with app.app_context():
-                user = Users(name=name, email=email_address, password=password)
+                user = Users(name=name, name_hash=name_hash, email=email_address, password=password)
 
                 if website:
                     user.website = website

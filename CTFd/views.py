@@ -59,6 +59,8 @@ from CTFd.utils.security.signing import (
 from CTFd.utils.uploads import get_uploader, upload_file
 from CTFd.utils.user import authed, get_current_team, get_current_user, is_admin
 
+from CTFd.hashing import hash
+
 views = Blueprint("views", __name__)
 
 
@@ -112,6 +114,7 @@ def setup():
 
             # Administration
             name = request.form["name"]
+            name_hash = hash(name)
             email = request.form["email"]
             password = request.form["password"]
 
@@ -151,7 +154,7 @@ def setup():
                 )
 
             admin = Admins(
-                name=name, email=email, password=password, type="admin", hidden=True
+                name=name, name_hash=name_hash, email=email, password=password, type="admin", hidden=True
             )
 
             # Create an empty index page
