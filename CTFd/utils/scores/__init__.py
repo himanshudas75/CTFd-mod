@@ -84,7 +84,8 @@ def get_standings(count=None, admin=False, fields=None):
             db.session.query(
                 Model.id.label("account_id"),
                 Model.oauth_id.label("oauth_id"),
-                Model.name.label("name"),
+                Model.name_hash.label("name"),
+                Model.name.label("username"),
                 Model.hidden,
                 Model.banned,
                 sumscores.columns.score,
@@ -102,7 +103,7 @@ def get_standings(count=None, admin=False, fields=None):
             db.session.query(
                 Model.id.label("account_id"),
                 Model.oauth_id.label("oauth_id"),
-                Model.name.label("name"),
+                Model.name_hash.label("name"),
                 sumscores.columns.score,
                 *fields,
             )
