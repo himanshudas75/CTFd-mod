@@ -74,6 +74,7 @@
 							</div>
 						</th>
 						<th class="sort-col text-center"><b>ID</b></th>
+						<th class="sort-col text-center"><b>User Name</b></th>
 						<th class="sort-col text-center"><b>User</b></th>
 						<th class="sort-col text-center"><b>Email</b></th>
 						<th class="sort-col text-center"><b>Country</b></th>
@@ -110,6 +111,11 @@
 							{% if user.affiliation %}
 								<span class="d-block text-muted"><small>{{ user.affiliation | truncate(20) }}</small></span>
 							{% endif %}
+						</td>
+						<td class="name-hash" value="{{ user.name_hash }}">
+							<a href="{{ url_for('admin.users_detail', user_id=user.id) }}">
+								{{ user.name_hash | truncate(32) }}
+							</a>
 						</td>
 						<td class="team-email d-none d-md-table-cell d-lg-table-cell" value="{{ user.email }}">
 							{% if user.email %}
