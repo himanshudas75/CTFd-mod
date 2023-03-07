@@ -17,9 +17,9 @@ users = Blueprint("users", __name__)
 @check_account_visibility
 def listing():
     q = request.args.get("q")
-    field = request.args.get("field", "name")
-    if field not in ("name", "affiliation", "website"):
-        field = "name"
+    field = request.args.get("field", "name_hash")
+    if field not in ("name_hash", "affiliation", "website"):
+        field = "name_hash"
 
     filters = []
     if q:
