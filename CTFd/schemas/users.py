@@ -29,6 +29,15 @@ class UserSchema(ma.ModelSchema):
             validate.Length(min=1, max=128, error="User names must not be empty")
         ],
     )
+    name_hash = field_for(
+        Users,
+        "name_hash",
+        required=True,
+        allow_none=False,
+        validate=[
+            validate.Length(min=1, max=128, error="User hashes must not be empty")
+        ],
+    )
     email = field_for(
         Users,
         "email",
